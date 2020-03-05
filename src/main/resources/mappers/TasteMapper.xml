@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.zzuli.news.dao.TasteMapper">
+
+    <resultMap id="BaseResultMap" type="cn.zzuli.news.entity.Taste">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="user_id" property="userId" jdbcType="INTEGER"/>
+        <result column="cate_id" property="cateId" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, user_id, cate_id
+    </sql>
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from taste
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete from taste
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+
+    <insert id="insert" parameterType="cn.zzuli.news.entity.Taste">
+        insert into taste (id, user_id, cate_id
+        )
+        values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{cateId,jdbcType=INTEGER}
+        )
+    </insert>
+
+    <insert id="insertSelective" parameterType="cn.zzuli.news.entity.Taste">
+        insert into taste
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="cateId != null">
+                cate_id,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="userId != null">
+                #{userId,jdbcType=INTEGER},
+            </if>
+            <if test="cateId != null">
+                #{cateId,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateByPrimaryKeySelective" parameterType="cn.zzuli.news.entity.Taste">
+        update taste
+        <set>
+            <if test="userId != null">
+                user_id = #{userId,jdbcType=INTEGER},
+            </if>
+            <if test="cateId != null">
+                cate_id = #{cateId,jdbcType=INTEGER},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <update id="updateByPrimaryKey" parameterType="cn.zzuli.news.entity.Taste">
+        update taste
+        set user_id = #{userId,jdbcType=INTEGER},
+        cate_id = #{cateId,jdbcType=INTEGER}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+
+    <delete id="deleteTasteByCateId" parameterType="java.lang.Integer">
+        delete from taste
+        where cate_id = #{cateId,jdbcType=INTEGER}
+    </delete>
+
+    <select id="selectTasteByUserId" resultType="cn.zzuli.news.entity.Taste">
+        select
+        <include refid="Base_Column_List"/>
+        from taste
+        where user_id = #{userId,jdbcType=INTEGER}
+    </select>
+
+    <select id="selectTasteBycateId" resultType="cn.zzuli.news.entity.Taste">
+        select
+        <include refid="Base_Column_List"/>
+        from taste
+        where cate_id = #{cateId,jdbcType=INTEGER}
+    </select>
+
+</mapper>

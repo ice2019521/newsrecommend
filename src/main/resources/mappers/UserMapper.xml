@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.zzuli.news.dao.UserMapper">
+
+    <resultMap id="BaseResultMap" type="cn.zzuli.news.entity.User">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="nick" property="nick" jdbcType="VARCHAR"/>
+        <result column="phone" property="phone" jdbcType="CHAR"/>
+        <result column="password" property="password" jdbcType="VARCHAR"/>
+        <result column="sex" property="sex" jdbcType="VARCHAR"/>
+        <result column="status" property="status" jdbcType="INTEGER"/>
+        <result column="head" property="head" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, nick, phone, password, sex, status, head
+    </sql>
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from user
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete from user
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="cn.zzuli.news.entity.User">
+        insert into user (id, nick, phone,
+        password, sex, status,
+        head)
+        values (#{id,jdbcType=INTEGER}, #{nick,jdbcType=VARCHAR}, #{phone,jdbcType=CHAR},
+        #{password,jdbcType=VARCHAR}, #{sex,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER},
+        #{head,jdbcType=VARCHAR})
+    </insert>
+
+    <insert id="insertSelective" parameterType="cn.zzuli.news.entity.User">
+        insert into user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="nick != null">
+                nick,
+            </if>
+            <if test="phone != null">
+                phone,
+            </if>
+            <if test="password != null">
+                password,
+            </if>
+            <if test="sex != null">
+                sex,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="head != null">
+                head,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="nick != null">
+                #{nick,jdbcType=VARCHAR},
+            </if>
+            <if test="phone != null">
+                #{phone,jdbcType=CHAR},
+            </if>
+            <if test="password != null">
+                #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="sex != null">
+                #{sex,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=INTEGER},
+            </if>
+            <if test="head != null">
+                #{head,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateByPrimaryKeySelective" parameterType="cn.zzuli.news.entity.User">
+        update user
+        <set>
+            <if test="nick != null">
+                nick = #{nick,jdbcType=VARCHAR},
+            </if>
+            <if test="phone != null">
+                phone = #{phone,jdbcType=CHAR},
+            </if>
+            <if test="password != null">
+                password = #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="sex != null">
+                sex = #{sex,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=INTEGER},
+            </if>
+            <if test="head != null">
+                head = #{head,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <update id="updateByPrimaryKey" parameterType="cn.zzuli.news.entity.User">
+        update user
+        set nick = #{nick,jdbcType=VARCHAR},
+        phone = #{phone,jdbcType=CHAR},
+        password = #{password,jdbcType=VARCHAR},
+        sex = #{sex,jdbcType=VARCHAR},
+        status = #{status,jdbcType=INTEGER},
+        head = #{head,jdbcType=VARCHAR}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <select id="selectUserPageConditions" resultType="cn.zzuli.news.entity.User">
+        select
+        <include refid="Base_Column_List"/>
+        from user
+        <where>
+            <if test="id!=null">
+                and id = #{id,jdbcType=INTEGER}
+            </if>
+            <if test="nick != null">
+                and nick = #{nick,jdbcType=VARCHAR}
+            </if>
+            <if test="phone != null">
+                and phone = #{phone,jdbcType=CHAR}
+            </if>
+            <if test="sex != null">
+                and sex = #{sex,jdbcType=VARCHAR}
+            </if>
+            <if test="status != null">
+                and status = #{status,jdbcType=INTEGER}
+            </if>
+        </where>
+        <if test="currIndex!=null and pageSize!=null">
+            limit #{currIndex,jdbcType=INTEGER}, #{pageSize,jdbcType=INTEGER}
+        </if>
+    </select>
+
+    <select id="selectUserTotalConditions" resultType="java.lang.Integer">
+        select count(id) from user
+        <where>
+            <if test="id!=null">
+                and id = #{id,jdbcType=INTEGER}
+            </if>
+            <if test="nick != null">
+                and nick = #{nick,jdbcType=VARCHAR}
+            </if>
+            <if test="phone != null">
+                and phone = #{phone,jdbcType=CHAR}
+            </if>
+            <if test="sex != null">
+                and sex = #{sex,jdbcType=VARCHAR}
+            </if>
+            <if test="status != null">
+                and status = #{status,jdbcType=INTEGER}
+            </if>
+        </where>
+    </select>
+
+</mapper>
